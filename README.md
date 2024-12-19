@@ -62,7 +62,7 @@ Similar à visão em primeira pessoa, mas a visão não é obstruída por nenhum
 
 <img src="./imgs/cinematica.png" alt="Visão cinematográfica" width="350"/>
 
-Posicionada a uma distância fixa do avatar, esta visão se diferencia das outras pois compartilha apenas as transformações de translação com o pássaro. Por não sofrer as mesmas transformações de rotação das outras câmeras, em alguns momentos veremos o pássaro de frente, em outros de lado e em outros de costas, a depender da direção para a qual o modelo está voltado. Entretanto, através da GUI, é possível controlar manualmente a rotação da câmera cinematográfica ao redor do pássaro. A intenção da inclusão dessa visão é poder visualizar as transformações de rotação aplicadas sobre o pássaro.
+Posicionada a uma distância fixa do avatar, esta visão se diferencia das outras pois compartilha apenas as transformações de translação com o pássaro. Por não sofrer as mesmas transformações de rotação das outras câmeras, em alguns momentos veremos o pássaro de frente, em outros de lado e em outros de costas, a depender da direção para a qual o modelo está voltado. Entretanto, através da GUI, é possível controlar manualmente a rotação da câmera cinematográfica ao redor do pássaro. A intenção da inclusão dessa visão é facilitar a visualização das transformações de rotação aplicadas sobre o avatar durante o trajeto.
 
 ---
 
