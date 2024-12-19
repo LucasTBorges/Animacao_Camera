@@ -84,7 +84,7 @@ A rota que tracei para o passáro foi formada pela interpolação de 12 pontos n
 
 ## Modo Câmera Livre
 
-Para facilitar a montagem da curva, adicionei um modo de câmera livre à aplicação, acessível pela aba "Câmera Livre". Nela, faço uso dos [Fly Controls](https://threejs.org/docs/#examples/en/controls/FlyControls) do Three.js. Nesse modo, é possível navegar livremente pelo cenário. Assim, para montar o caminho, bastou navegar pela câmera livre até o local que eu achava apropriado para a adição de um ponto à minha lista de pontos e registrar a coordenada no espaço do mundo, que é pode ser encontrada na janela de informações, habilitada através da interface gráfica.
+Para facilitar a montagem da curva, adicionei um modo de câmera livre à aplicação, acessível pela aba "Câmera Livre". Nela, faço uso dos [Fly Controls](https://threejs.org/docs/#examples/en/controls/FlyControls) do Three.js. Nesse modo, é possível navegar livremente pelo cenário. Assim, para montar o caminho, bastou navegar pela câmera livre até o local que eu achava apropriado para a adição de um ponto à minha lista de pontos e registrar a coordenada no espaço do mundo, que pode ser encontrada na janela de informações, habilitada através da interface gráfica.
 
 ## GUI (Interface Gráfica)
 
