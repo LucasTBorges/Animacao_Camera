@@ -10,10 +10,10 @@ const cinematicY = 1.5;
 const cinematicZ = -4.0;
 
 export const cameras = {
-    PrimeiraPessoa: "firstPerson",
-    TerceiraPessoa: "thirdPerson",
-    DroneNormal: "clearView",
-    Cinematográfica: "cinematic"
+    FirstPerson: "firstPerson",
+    ThirdPerson: "thirdPerson",
+    NormalDrone: "clearView",
+    Cinematic: "cinematic"
 }
 
 const initValues = {
@@ -26,12 +26,12 @@ const initValues = {
     dirX: -1.0,
     dirY: 0.0,
     dirZ: 0.0,
-    Velocidade: 1,
-    ÂnguloCâmera: 1.65,
-    camera: cameras.TerceiraPessoa,
-    MostrarRota: true,
-    MostrarKeyPoints: true,
-    Informações: false,
+    Speed: 1,
+    CameraAngle: 1.65,
+    camera: cameras.ThirdPerson,
+    ShowPath: true,
+    ShowKeyPoints: true,
+    Information: false,
     freeCam: null,
     t: 0.0,
     AutoPlay: true,
@@ -73,7 +73,7 @@ class Aplicacao {
         this.cameras.setActiveCamera(this.initValues.camera);
         this.infoPanel = new InfoPanel(this.cameras.getActiveCamera(), this);
         this.initModels();
-        this.controllers.get("ÂnguloCâmera").setValue(this.initValues.ÂnguloCâmera);
+        this.controllers.get("CameraAngle").setValue(this.initValues.CameraAngle);
     }
 
     initRenderer(){
@@ -101,21 +101,21 @@ class Aplicacao {
         const firstPerson = new THREE.PerspectiveCamera(this.initValues.FOV, 1.0, this.initValues.near, this.initValues.Far);
         firstPerson.position.set(0.0, -0.18, -0.795);
         firstPerson.rotateX(-0.25);
-        this.cameras.addCamera(firstPerson, cameras.PrimeiraPessoa);
+        this.cameras.addCamera(firstPerson, cameras.FirstPerson);
 
         const thirdPerson = new THREE.PerspectiveCamera(this.initValues.FOV, 0.8, this.initValues.near, this.initValues.Far);
         thirdPerson.position.set(0.0, 0.4, 1.7);
-        this.cameras.addCamera(thirdPerson, cameras.TerceiraPessoa);
+        this.cameras.addCamera(thirdPerson, cameras.ThirdPerson);
 
         const cinematic = new THREE.PerspectiveCamera(this.initValues.FOV, 1.0, 1.0, this.initValues.Far);
         cinematic.position.set(cinematicX, cinematicY, cinematicZ);
         cinematic.rotateX(0.4);
         cinematic.rotateY(Math.PI);
-        this.cameras.addCameraTranslationOnly(cinematic, cameras.Cinematográfica);
+        this.cameras.addCameraTranslationOnly(cinematic, cameras.Cinematic);
 
         const clearView = new THREE.PerspectiveCamera(this.initValues.FOV, 1.0, this.initValues.near, this.initValues.Far);
         clearView.position.set(0.0, 0.0, -1.0);
-        this.cameras.addCamera(clearView, cameras.DroneNormal);
+        this.cameras.addCamera(clearView, cameras.NormalDrone);
 
         this.cameraOrto = new THREE.OrthographicCamera(-65.0, 65.0, 65.0, -65.0, -100.0, 100.0);
         this.cameraOrto.position.set(1.0, 1.0, 1.0);
@@ -137,20 +137,20 @@ class Aplicacao {
     
     initGUI() {
         this.controls = {
-            Câmera: this.initValues.camera,
+            Camera: this.initValues.camera,
             FOV: this.initValues.FOV,
             near: this.initValues.near,
             Far: this.initValues.Far,
             camPosX: this.initValues.posX,
             camPosY: this.initValues.posY,
             camPosZ: this.initValues.posZ,
-            ÂnguloCâmera: this.initValues.ÂnguloCâmera,
-            MostrarRota: this.initValues.MostrarRota,
-            MostrarKeyPoints: this.initValues.MostrarKeyPoints,
-            Informações: this.initValues.Informações,
-            Velocidade: this.initValues.Velocidade,
-            Reprodução: 0.0,
-            Gravidade: this.initValues.Gravity,
+            CameraAngle: this.initValues.CameraAngle,
+            ShowPath: this.initValues.ShowPath,
+            ShowKeyPoints: this.initValues.ShowKeyPoints,
+            Information: this.initValues.Information,
+            Speed: this.initValues.Speed,
+            Playback: 0.0,
+            Gravity: this.initValues.Gravity,
             Play: () => {
                 this.animacao.play();
                 this.controllers.get("Play").hide();
@@ -163,25 +163,25 @@ class Aplicacao {
             }
         };
 
-        const CameraFolder = this.gui.addFolder('Câmera');
-        this.controllers.set("Câmera",
-            CameraFolder.add(this.controls, 'Câmera', cameras).onChange(cameraName => {
+        const CameraFolder = this.gui.addFolder('Camera');
+        this.controllers.set("Camera",
+            CameraFolder.add(this.controls, 'Camera', cameras).onChange(cameraName => {
                 this.setActiveCamera(cameraName);
-                cameraName === cameras.Cinematográfica ? this.controllers.get("ÂnguloCâmera").show() : this.controllers.get("ÂnguloCâmera").hide();
+                cameraName === cameras.Cinematic ? this.controllers.get("CameraAngle").show() : this.controllers.get("CameraAngle").hide();
             })
         );
-        this.controllers.set("ÂnguloCâmera",
-            CameraFolder.add(this.controls, 'ÂnguloCâmera', -Math.PI, Math.PI, 0.01).onChange(event => {
-                const cinematic = this.cameras.getCamera(cameras.Cinematográfica);
+        this.controllers.set("CameraAngle",
+            CameraFolder.add(this.controls, 'CameraAngle', -Math.PI, Math.PI, 0.01).onChange(event => {
+                const cinematic = this.cameras.getCamera(cameras.Cinematic);
                 cinematic.position.set(cinematicX, cinematicY, cinematicZ);
-                let matrix = new THREE.Matrix4().makeRotationY(this.controls.ÂnguloCâmera);
+                let matrix = new THREE.Matrix4().makeRotationY(this.controls.CameraAngle);
                 cinematic.position.applyMatrix4(matrix);
                 cinematic.matrixWorldNeedsUpdate = true;
                 cinematic.lookAt(this.cameras.getPosition());
             })
         );
-        if(this.initValues.camera !== cameras.Cinematográfica){
-            this.controllers.get("ÂnguloCâmera").hide();
+        if(this.initValues.camera !== cameras.Cinematic){
+            this.controllers.get("CameraAngle").hide();
         }
         this.controllers.set("FOV",
             CameraFolder.add(this.controls, 'FOV', 50.0, 80.0, 1.0).onChange(event => {
@@ -203,7 +203,7 @@ class Aplicacao {
         );
         CameraFolder.open();
         if(this.path){
-            const AnimationFolder = this.gui.addFolder('Animação');
+            const AnimationFolder = this.gui.addFolder('Animation');
             this.controllers.set("Play",
                 AnimationFolder.add(this.controls, 'Play')
             );
@@ -215,43 +215,43 @@ class Aplicacao {
             } else {
                 this.controllers.get("Pause").hide();
             }
-            this.controllers.set("Velocidade",
-                AnimationFolder.add(this.controls, 'Velocidade', 0.25, 3.5, 0.05).onChange(event => {
-                    this.animacao.setVelocidadeBase(this.controls.Velocidade);
+            this.controllers.set("Speed",
+                AnimationFolder.add(this.controls, 'Speed', 0.25, 3.5, 0.05).onChange(event => {
+                    this.animacao.setVelocidadeBase(this.controls.Speed);
                 })
             );
-            this.controllers.set("Reprodução",
-                AnimationFolder.add(this.controls, 'Reprodução', 0.0, 1.0, 0.005).onChange(event => {
-                    this.animacao.setT(this.controls.Reprodução);
+            this.controllers.set("Playback",
+                AnimationFolder.add(this.controls, 'Playback', 0.0, 1.0, 0.005).onChange(event => {
+                    this.animacao.setT(this.controls.Playback);
                 })
             );
             AnimationFolder.open();
-            const OthersFolder = this.gui.addFolder('Outros');
-            this.controllers.set("Gravidade",
-                OthersFolder.add(this.controls, 'Gravidade', 0.0, 5.0, 0.1).onChange(event => {
-                    this.animacao.setGravity(this.controls.Gravidade);
+            const OthersFolder = this.gui.addFolder('Others');
+            this.controllers.set("Gravity",
+                OthersFolder.add(this.controls, 'Gravity', 0.0, 5.0, 0.1).onChange(event => {
+                    this.animacao.setGravity(this.controls.Gravity);
                 })
             );
-            this.controllers.set("MostrarRota",
-                OthersFolder.add(this.controls, 'MostrarRota').onChange(event => {
-                    this.pathLine.visible = this.controls.MostrarRota;
+            this.controllers.set("ShowPath",
+                OthersFolder.add(this.controls, 'ShowPath').onChange(event => {
+                    this.pathLine.visible = this.controls.ShowPath;
                 })
             );
-            this.controllers.set("MostrarKeyPoints",
-                OthersFolder.add(this.controls, 'MostrarKeyPoints').onChange(event => {
-                    this.pontosInstances.visible = this.controls.MostrarKeyPoints;
+            this.controllers.set("ShowKeyPoints",
+                OthersFolder.add(this.controls, 'ShowKeyPoints').onChange(event => {
+                    this.pontosInstances.visible = this.controls.ShowKeyPoints;
                 })
             );
-            this.controllers.set("Informações",
-                OthersFolder.add(this.controls, 'Informações').onChange(event => {
-                    this.controls.Informações ? this.infoPanel.show() : this.infoPanel.hide();
+            this.controllers.set("Information",
+                OthersFolder.add(this.controls, 'Information').onChange(event => {
+                    this.controls.Information ? this.infoPanel.show() : this.infoPanel.hide();
                 })
             );
             OthersFolder.close();
         } else{
-            this.controllers.set("Informações",
-                this.gui.add(this.controls, 'Informações').onChange(event => {
-                    this.controls.Informações ? this.infoPanel.show() : this.infoPanel.hide();
+            this.controllers.set("Information",
+                this.gui.add(this.controls, 'Information').onChange(event => {
+                    this.controls.Information ? this.infoPanel.show() : this.infoPanel.hide();
                 })
             );
         }
@@ -287,8 +287,8 @@ class Aplicacao {
 
     initModels() {
         const gltfLoader = new GLTFLoader();
-        gltfLoader.load('../Models/book/scene.gltf', this.loadMeshToScene.bind(this));
-        gltfLoader.load('../Models/bird/scene.gltf', this.loadMeshToCameras.bind(this));
+        gltfLoader.load('../assets/book/scene.gltf', this.loadMeshToScene.bind(this));
+        gltfLoader.load('../assets/bird/scene.gltf', this.loadMeshToCameras.bind(this));
 
     }
 
@@ -354,11 +354,11 @@ class Aplicacao {
         this.cameraOrto.updateProjectionMatrix();
         this.cameras.showHelper();
         if (this.path) {
-            this.pontosInstances.visible = this.controls.MostrarKeyPoints;
-            this.pathLine.visible = this.controls.MostrarRota;
+            this.pontosInstances.visible = this.controls.ShowKeyPoints;
+            this.pathLine.visible = this.controls.ShowPath;
         }
         this.renderer.render(this.scene, this.cameraOrto);
-        this.controls.Informações && this.infoPanel.update();
+        this.controls.Information && this.infoPanel.update();
     }
 
     setActiveCamera(cameraName) {

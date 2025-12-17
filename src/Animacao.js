@@ -7,7 +7,7 @@ class Animacao {
         this.direction = new THREE.Vector3(init.dirX, init.dirY, init.dirZ);
         this.t = this.app.initValues.t;
         this.position = this.app.path.getPointAt(this.t);
-        this.velocidadeBase = init.Velocidade;
+        this.velocidadeBase = init.Speed;
         this.isPlaying = this.app.initValues.AutoPlay;
         this.gravity = init.Gravity;
     }
@@ -29,7 +29,7 @@ class Animacao {
             this.t -= 1;
         }
         if(delta>0){
-            this.app.controllers.get("Reprodução").setValue(this.t);
+            this.app.controllers.get("Playback").setValue(this.t);
         }
         this.position = this.app.path.getPointAt(this.t);
         this.direction = this.calcDirection();
@@ -60,8 +60,8 @@ class Animacao {
         this.gravity = gravity;
     }
 
-    setVelocidadeBase(Velocidade) {
-        this.velocidadeBase = Velocidade;
+    setVelocidadeBase(Speed) {
+        this.velocidadeBase = Speed;
     }
 
     getSpeed() {
