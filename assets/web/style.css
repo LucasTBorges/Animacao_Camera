@@ -1,90 +1,97 @@
+:root {
+  --parchment: #fdf6e3;
+  --ink: #4a3728;
+  --gold: #c5a059;
+  --gold-glow: #d4af37;
+}
+
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Crimson Pro', serif;
+  background-color: #1a1a1a;
+  overflow: hidden;
 }
 
-ul {
-  list-style-type: none;
+.app-header {
+  background: var(--parchment);
+  color: var(--ink);
+  padding: 10px 40px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+.logo h1 {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  background-color: #f1f1f1;
-  position: relative;
-  height: 100%;
-  overflow: auto;
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  color: #630000;
 }
 
-li a {
-  display: block;
-  color: #000;
-  padding: 8px 16px;
+.logo p {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+.top-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
   text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
-li a.active {
-  background-color: #04AA6D;
-  color: white;
+.nav-link:hover {
+  color: var(--gold-glow);
 }
 
-li a:hover:not(.active) {
-  background-color: #555;
-  color: white;
+.nav-link.active {
+  color: var(--gold-glow);
+  border-bottom: 2px solid var(--gold-glow);
+}
+
+.viewer-container {
+  flex: 1;
 }
 
 iframe {
-  border:none;
-  height: 500px; 
   width: 100%;
-  margin: 0;
+  height: 100%;
+  border: none;
 }
 
-
-/* Style the header */
-.header {
-  background-color: #cccccc;
-  padding: 30px;
-  text-align: left;
-  font-size: 18px;
-}
-
-/* Container for flexboxes */
-.row {
-  display: -webkit-flex;
+.app-footer {
+  background: #0f0f0f;
+  color: #888;
+  padding: 8px 40px;
   display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  border-top: 1px solid #333;
 }
 
-/* Create three unequal columns that sits next to each other */
-.column {
-  padding: 10px;
-  height: 600px; /* Should be removed. Only for demonstration */
-  background-color: #FFFFFF;
+.app-footer a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-/* Left and right column */
-.column.side {
-   -webkit-flex: 1;
-   -ms-flex: 1;
-   flex: 1;
-}
-
-/* Middle column */
-.column.middle {
-  -webkit-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-}
-
-/* Style the footer */
-.footer {
-  background-color: #cccccc;
-  padding: 10px;
-  text-align: center;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media (max-width: 600px) {
-  .row {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
+.app-footer a:hover { color: var(--gold-glow); }
+.sep { margin: 0 10px; color: #444; }

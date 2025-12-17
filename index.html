@@ -9,29 +9,45 @@
   </head>
 
   <body>
-    <div class="header">
-      <h1>Celestial Library Expedition</h1>
-    </div>
+    <header class="app-header">
 
-    <div class="row">
-      <div class="column side">
-        <ul>
-          <li><a class="active">Bird's Eye Flight</a>
-          <li><a href="./src/Circuito.html" target="examples">Animated Circuit</a></li>
-          <li><a href="./src/FreeCam.html" target="examples">Free Exploration</a></li>
-        </ul>
+        <div class="logo">
+          <h1>Magical Flight</h1>
+          <p>A demo on multi-camera animation using Three.js</p>
+        </div>
+        <nav class="top-nav">
+          <a class="nav-link active" href="./src/Circuito.html" target="examples">Animated Circuit</a>
+          <a class="nav-link" href="./src/FreeCam.html" target="examples">Free Exploration</a>
+        </nav>
+    </header>
+
+    <main class="viewer-container">
+      <iframe name="examples" title="3D Scene Viewer" src="./src/Circuito.html"></iframe>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-left">
+        <span>Developed by <a href="https://github.com/LucasTBorges" target="_blank">Lucas T. Borges</a></span>
+        <span class="sep">|</span>
+        <a href="https://github.com/LucasTBorges/animacao_camera" target="_blank">Source Code</a>
       </div>
-      
-      <div class="column middle" >
-        <iframe name="examples" title="Bird's Eye Flight"></iframe>
+      <div class="footer-right">
+        <span>Assets: <a href="https://sketchfab.com/3d-models/medieval-fantasy-book-06d5a80a04fc4c5ab552759e9a97d91a" target="_blank">'Medieval Fantasy Book' by Pixel</a> and <a href="https://sketchfab.com/3d-models/low-poly-bird-942ffdab96bb48a7bb1612b461386310" target="_blank">'Low Poly Bird' by AlexFerrart3D</a> on Sketchfab</span>
       </div>
-
-    </div>
-
-    <div class="footer">
-    </div>
-
+    </footer>
   </body>
+
+  <script>
+    // Navigation Link Active State Handling
+    const navLinks = document.querySelectorAll('.top-nav a');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
 </html>
 
 

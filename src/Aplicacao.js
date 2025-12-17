@@ -79,7 +79,7 @@ class Aplicacao {
     initRenderer(){
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setClearColor(new THREE.Color(0.243, 0.435, 0.839));
-        const multiplier = 0.93;
+        const multiplier = 1;
         this.rendSize.x = Math.min(window.innerWidth, window.innerHeight) * 2 * multiplier;
         this.rendSize.y = Math.min(window.innerWidth, window.innerHeight) * 1 * multiplier;
         this.renderer.setSize(this.rendSize.x, this.rendSize.y);
