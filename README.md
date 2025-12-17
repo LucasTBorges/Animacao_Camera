@@ -1,110 +1,103 @@
-﻿# Relatório Trabalho 1 - MATA65 (Computação Gráfica)
-## Introdução
-Neste repositório se localiza o produto final do trabalho que marca a conclusão da unidade 1 da disciplina MATA65 - Computação Gráfica na UFBA no semestre 2024.2, ministrada pelo professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), responsável pelas especificações do trabalho. **Para executar a aplicação, é importante ter a pasta [Assets](https://github.com/LucasTBorges/Assets) na raíz do web server que está o executando.** A navegação da aplicação se dá a partir do index.html, localizado na pasta CodigoBase.
-Nós fomos orientados a desenvolver uma aplicação utilizando a biblioteca [Three.js](https://threejs.org/) que nos permitisse visualizar um cenário sob dois pontos de vista simultaneamente: uma câmera estática e uma câmera que acompanha um agente representado por um modelo 3D percorrendo um circuito em loop pela cena.
-Dentre os requisitos impostos, se encontravam:
- - Na visualização que acompanha o avatar pelo cenário, deve ser possível alternar entre as perspectivas de Primeira Pessoa, Terceira Pessoa e "Drone Normal".
- - O movimento da câmera deve ser suave e realista.
- - Deve ser possível pausar e reproduzir a execução da animação.
-## Modelos 3D
-<img src="./imgs/bookModel.png" alt="Modelo 3D do cenário" width="500"/>
-<img src="./imgs/passaro.png" alt="Modelo 3D do avatar" width="500"/>
+﻿# Project Report 1 - MATA65 (Computer Graphics)
+## Introduction
+This repository contains the final project for Unit 1 of the MATA65 - Computer Graphics course at UFBA (2024.2 semester), taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
 
-As especificações do trabalho, localizadas neste mesmo repositório, dão liberdade criativa para a escolha dos modelos do avatar e do cenário. Dessa forma, escolhi, para o cenário, o modelo de um [feudo sobre um livro de fantasia medieval](https://sketchfab.com/3d-models/medieval-fantasy-book-06d5a80a04fc4c5ab552759e9a97d91a), disponível para download no SketchFab sob a publicação do usuário [Pixel](https://sketchfab.com/stefan.lengyel1). Para o avatar acompanhado pela câmera, optei pelo modelo de um [pássaro](https://sketchfab.com/3d-models/low-poly-bird-942ffdab96bb48a7bb1612b461386310), também disponível para download no SketchFab, sob a publicação do usuário [AlexFerrart3D](https://sketchfab.com/alexferrart3D).
+The goal was to develop an application using the [Three.js](https://threejs.org/) library to visualize a scene from two simultaneous perspectives: a static camera and a camera that follows an agent (a 3D model) traveling along a looped path.
 
-## Movimentação da Câmera
+Key requirements included:
+ - The ability to switch between First Person, Third Person, and "Normal Drone" perspectives for the avatar view.
+ - Smooth and realistic camera movement.
+ - Controls to pause and play the animation.
 
-**Translação:** A fim de traçar uma trajetória flúida para a câmera, decidi deslocá-la ao longo de uma [spline de Catmull-Rom](https://www.cs.cmu.edu/~fp/courses/graphics/asst5/catmullRom.pdf). Esta curva paramétrica, gerada a partir de uma lista de pontos no espaço, é uma spline interpolante, o que significa que os pontos definidos por mim farão parte da curva gerada, me dando mais controle sobre o circuito percorrido pela câmera. Por fim, já [existe uma implementação desta curva no Three.js](https://threejs.org/docs/#api/en/extras/curves/CatmullRomCurve3), o que foi mais um motivo para escolher essa abordagem no meu projeto.
+## 3D Models
+<img src="./imgs/bookModel.png" alt="3D Environment Model" width="500"/>
+<img src="./imgs/passaro.png" alt="3D Avatar Model" width="500"/>
 
-**Rotação:** Outra vantagem da utilização da spline de Catmull-Rom é o fato de que ela possui continuidade de classe $C^1$. Utilizar a tangente da curva para determinar a direção para a qual a câmera deve apontar em qualquer ponto me pareceu a escolha natural nessa situação.
+The project specifications allowed creative freedom for choosing the models. For the environment, I chose a [Medieval Fantasy Book](https://sketchfab.com/3d-models/medieval-fantasy-book-06d5a80a04fc4c5ab552759e9a97d91a) by user [Pixel](https://sketchfab.com/stefan.lengyel1) on Sketchfab. For the avatar, I opted for a [Low Poly Bird](https://sketchfab.com/3d-models/low-poly-bird-942ffdab96bb48a7bb1612b461386310) by user [AlexFerrart3D](https://sketchfab.com/alexferrart3D).
 
-## Visualizações Simultâneas
+## Camera Movement
 
-<img src="./imgs/moinho.png" alt="Frame capturado durante a execução da animação" width="500"/>
+**Translation:** To create a fluid trajectory, the camera moves along a [Catmull-Rom spline](https://www.cs.cmu.edu/~fp/courses/graphics/asst5/catmullRom.pdf). This parametric curve is interpolating, meaning the defined control points are part of the generated path, allowing for precise circuit design. I utilized the [Three.js implementation](https://threejs.org/docs/#api/en/extras/curves/CatmullRomCurve3) of this curve.
 
-Cada frame da animação possui duas visualizações simultâneas da cena. A primeira, localizada na esquerda, é a visualização de uma [câmera que faz uso de projeção perspectiva](https://threejs.org/docs/#api/en/cameras/PerspectiveCamera) e acompanha o avatar percorrendo o cenário. A segunda, localizada na direita, é a visualização de uma [câmera ortográfica](https://threejs.org/docs/#api/en/cameras/OrthographicCamera) (faz uso de projeção paralela) que não sofre nenhuma tranformação durante a execução da aplicação.
-Na visualização da câmera ortográfica é possível visualizar alguns elementos não presentes na primeira visualização:
- - Um [Camera Helper](https://threejs.org/docs/#api/en/helpers/CameraHelper) referente à primeira visualização: segmentos de linha que auxiliam a visualizar o frustrum da câmera ativa.
- - Uma curva vermelha que descreve a trajetória da câmera na animação, cuja visualização pode ser desligada através da GUI.
- - Esferas ciano representando os pontos a partir dos quais a curva foi gerada. Como todas as esferas compartilham da mesma geometria e material, foi possível fazer uso da [InstancedMesh](https://threejs.org/docs/#api/en/objects/InstancedMesh) do Three.js ao invés de criar as malhas das esferas uma a uma e passar, de forma redundante, as mesmas informações de geometria e material toda vez. Essa escolha ainda otimiza a performance da aplicação pois diminui o número de draw calls realizadas. A visualização das esferas pode ser desligada através da GUI.
+**Rotation:** A benefit of the Catmull-Rom spline is its $C^1$ continuity. I used the curve's tangent to determine the camera's direction at any given point, ensuring natural orientation.
 
-## Diferentes Câmeras
+## Simultaneous Views
 
- A especificação do trabalho indica que deve ser possível alternar entre as câmeras em Primeira Pessoa, Terceira Pessoa e "Drone Normal" através da GUI. Para além das três câmeras obrigatórias, minha aplicação também inclui a opção "Cinematográfica".
+<img src="./imgs/moinho.png" alt="Frame captured during animation" width="500"/>
+
+Each frame features two simultaneous views. On the left is a [Perspective Camera](https://threejs.org/docs/#api/en/cameras/PerspectiveCamera) that follows the avatar. On the right is an [Orthographic Camera](https://threejs.org/docs/#api/en/cameras/OrthographicCamera) (parallel projection) that remains static.
+
+The orthographic view displays elements not visible in the first view:
+ - A [Camera Helper](https://threejs.org/docs/#api/en/helpers/CameraHelper) for the active perspective camera.
+ - A red curve showing the camera's trajectory (can be toggled via GUI).
+ - Cyan spheres representing the control points. Using [InstancedMesh](https://threejs.org/docs/#api/en/objects/InstancedMesh), I optimized performance by reducing draw calls, as all spheres share the same geometry and material.
+
+## Camera Modes
+
+The application allows switching between First Person, Third Person, and Normal Drone views. I also included a "Cinematic" option.
 
 ---
  
- ### Primeira pessoa:
- 
- <img src="./imgs/firstPerson.png" alt="Visão em primeira pessoa" width="350"/>
- 
-  Câmera posicionada de forma a simular a experiência do pássaro, com a visão parcialmente obstruída pelo bico.
+ ### First Person:
+ <img src="./imgs/firstPerson.png" alt="First Person View" width="350"/>
+ Positioned to simulate the bird's experience, with the view partially obstructed by its beak.
 
 ---
   
- ### Terceira Pessoa:
- 
-<img src="./imgs/thirdPerson.png" alt="Visão em terceira pessoa" width="350"/>
-
-Câmera posicionada atrás e um pouco acima do pássaro.
+ ### Third Person:
+ <img src="./imgs/thirdPerson.png" alt="Third Person View" width="350"/>
+ Positioned behind and slightly above the bird.
 
 ---
 
-### Drone Normal:
-
-<img src="./imgs/droneNormal.png" alt="Visão de drone normal" width="350"/>
-
-Similar à visão em primeira pessoa, mas a visão não é obstruída por nenhuma parte do modelo do pássaro.
+### Normal Drone:
+ <img src="./imgs/droneNormal.png" alt="Normal Drone View" width="350"/>
+ Similar to first person, but with an unobstructed view.
 
 ---
 
-### Cinematográfica:
-
-<img src="./imgs/cinematica.png" alt="Visão cinematográfica" width="350"/>
-
-Posicionada a uma distância fixa do avatar, esta visão se diferencia das outras pois compartilha apenas as transformações de translação com o pássaro. Por não sofrer as mesmas transformações de rotação das outras câmeras, em alguns momentos veremos o pássaro de frente, em outros de lado e em outros de costas, a depender da direção para a qual o modelo está voltado. Entretanto, através da GUI, é possível controlar manualmente a rotação da câmera cinematográfica ao redor do pássaro. A intenção da inclusão dessa visão é facilitar a visualização das transformações de rotação aplicadas sobre o avatar durante o trajeto.
+### Cinematic:
+ <img src="./imgs/cinematica.png" alt="Cinematic View" width="350"/>
+ This view stays at a fixed distance from the avatar but only shares translation transformations. This allows the viewer to see the bird from different angles as it rotates along the path. The rotation of this camera around the bird can be controlled manually via the GUI.
 
 ---
 
-Para posicionar as câmeras com referência ao pássaro, utilizei [grupos](https://threejs.org/docs/?q=group#api/en/objects/Group) do Three.js para realizar o posicionamento no sistema de coordenadas local ao invés de no espaço do mundo. 
-Criei um grupo para aplicar as tranformações de translação da animação e dentro dele criei um grupo para aplicar as transformações de rotação. No grupo de rotação incluí o modelo do pássaro e as câmeras de Primeira Pessoa, Terceira Pessoa e Drone Normal. No grupo pai, o grupo de translação, incluí a câmera cinematográfica. O resultado é que todas as câmeras e o modelo sofrem as transformações de translação acompanhando a spline ao longo da animação, mas as transformações de rotação (acompanhando a tangente da spline) não atingem a câmera cinematográfica, como pretendido.
+To position these cameras relative to the bird, I used Three.js [Groups](https://threejs.org/docs/?q=group#api/en/objects/Group). A "Translation Group" handles the spline movement, and a nested "Rotation Group" handles the orientation. The bird and the first three cameras are inside the rotation group, while the Cinematic camera is in the parent translation group, isolating it from the bird's automatic rotations.
 
-## Circuito
+## The Circuit
 
-A rota que tracei para o passáro foi formada pela interpolação de 12 pontos no cenário que determinei para que ela seguisse o seguinte percurso:
+The flight path is interpolated from 12 points, following this route:
+ 1. Over the waterfall.
+ 2. Under the bridge near the fisherman.
+ 3. Over the deer.
+ 4. Around the windmill.
+ 5. Between the castle towers, followed by a "dive" through the building's doors.
+ 6. Right turn at the gray-roofed house.
+ 7. Over the sheep.
+ 8. Return to the starting point.
 
- 1. O pássaro começa passando por cima da cachoeira;
- 2. Em seguida, passa por debaixo da ponte com o pescador;
- 3. Sobrevoa os cervos;
- 4. Contorna o moinho de vento;
- 5. Passa por entre as torres mais altas do castelo e dá um "mergulho", saindo pelas portas da construção;
- 6. Vira a direita na casa com telhado cinza;
- 7. Sobrevoa as ovelhas;
- 8. Volta ao ponto inicial.
+## Free Camera Mode
+To assist in path creation, I added a "Free Exploration" mode using [Fly Controls](https://threejs.org/docs/#examples/en/controls/FlyControls). This allows free navigation to find coordinates for the spline points, which can be read from the "Information" debug panel.
 
-## Modo Câmera Livre
+## GUI (Graphical Interface)
 
-Para facilitar a montagem da curva, adicionei um modo de câmera livre à aplicação, acessível pela aba "Câmera Livre". Nela, faço uso dos [Fly Controls](https://threejs.org/docs/#examples/en/controls/FlyControls) do Three.js. Nesse modo, é possível navegar livremente pelo cenário. Assim, para montar o caminho, bastou navegar pela câmera livre até o local que eu achava apropriado para a adição de um ponto à minha lista de pontos e registrar a coordenada no espaço do mundo, que pode ser encontrada na janela de informações, habilitada através da interface gráfica.
+<img src="./imgs/gui.png" alt="lil-gui interface" width="250"/>
 
-## GUI (Interface Gráfica)
+Built with [lil-gui](https://lil-gui.georgealways.com/), the interface manages the following settings:
 
-<img src="./imgs/gui.png" alt="Interface gráfica gerada através da biblioteca lil-gui" width="250"/>
+**Camera:**
+ - **camera**: Dropdown to select the active perspective view (FirstPerson, ThirdPerson, NormalDrone, or Cinematic).
+ - **CameraAngle**: Controls the rotation of the Cinematic camera around the bird.
+ - **FOV**: Adjusts the Field of View.
+ - **Far**: Adjusts the camera's far clipping plane.
 
-A interface para os controles da aplicação foi gerada com a biblioteca [lil-gui](https://lil-gui.georgealways.com/). Nem todos os controles estão disponíveis no modo de câmera livre, pois apenas alguns controles fazem sentido nesse modo.
+**Animation:**
+ - **AutoPlay (Play/Pause)**: Resumes or pauses the flight.
+ - **Speed**: Adjusts the animation playback speed.
+ - **t (Playback)**: Manually adjust or view the current position on the spline.
 
-**Câmera:**
- - *Câmera*: Menu dropdown para selecionar a câmera ativa da visualização de perspectiva (PrimeiraPessoa, TerceiraPessoa, DroneNormal ou Cinematográfica).
- - *ÂnguloCâmera*: Visível apenas quando a câmera cinematográfica está selecionada, controla a rotação da câmera cinematográfica ao redor do pássaro.
- - *FOV*: Controla o campo de visão da câmera da visualização de perspectiva.
- - *Far*: Controla a distância do plano *far* de recorte da câmera (plano que limita o quão longe a câmera enxerga).
-
-**Animação:**
- - *Botão Play/Pause*: Retoma/Pausa a reprodução da animação.
- - *Velocidade*: Controla a velocidade da reprodução da animação.
- - *Reprodução*: Controla a posição da câmera na spline. Automaticamente atualizado durante a animação, mas pode ter seu valor modificado manualmente pelo usuário.
-
-**Outros:**
- - *Gravidade*: Controla a influência da orientação do pássaro em sua velocidade. Em 0, a velocidade é constante durante todo percurso, para qualquer outro valor, o pássaro fica mais rápido quando inclinado para baixo (quanto menor a coordenada y do vetor de direção, mais rápido). Essa funcionalidade torna a simulação um pouco mais realista e a diferença é mais perceptível no momento da animação no qual o pássaro "dá um mergulho" dentro do castelo.
- - *MostrarRota*: Checkbox que habilita/desabilita a visualização da curva que descreve a trajetória do grupo de translação.
- - *MostrarKeypoints*: Checkbox que habilita/desabilita a visualização das esferas que representam os pontos utilizados para gerar a spline.
- - *Informações*: Checkbox que habilita/desabilita a visualização da janela de debug, com algumas informações úteis durante o desenvolvimento sobre o estado atual da simulação.
+**Others:**
+ - **Gravity**: Influences speed based on orientation; the bird accelerates when diving.
+ - **ShowPath**: Toggles visibility of the trajectory curve.
+ - **ShowKeyPoints**: Toggles visibility of the control point spheres.
+ - **Information**: Toggles the debug information panel.
