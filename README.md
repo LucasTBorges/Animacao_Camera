@@ -101,3 +101,13 @@ Built with [lil-gui](https://lil-gui.georgealways.com/), the interface manages t
  - **ShowPath**: Toggles visibility of the trajectory curve.
  - **ShowKeyPoints**: Toggles visibility of the control point spheres.
  - **Information**: Toggles the debug information panel.
+
+ ## Create your own circuit
+
+To create a custom flight path, modify the `keypoints` array in `src/js/Circuito.js`. Each point is defined using `new THREE.Vector3(x, y, z)`, where `x`, `y`, and `z` are the coordinates in the 3D space. In order to assist in finding suitable coordinates, you can use the Free Camera mode as previously mentioned to navigate the scene and note down the desired positions. Check the "Information" checkbox on the Controls lil-gui menu in order to see debugging information, including the camera's position ("World Position") and move to the desired locations. Make sure to maintain the order of the points to ensure a smooth flight path.
+By modifying the `t` property in `initValues`, you can set the initial position of the camera along the spline when the application starts. The value of `t` should be between `0` and `1`, where `0` represents the start of the path and `1` represents the end (which loops back to the start in this case). Adjusting this value allows you to control where the camera begins its journey along the defined circuit and, consequently, the initial orientation for the bird.
+
+## Use your own 3d avatar model
+
+To use your own 3D avatar model, replace the gltf path on the initModels method in `src/js/Aplicacao.js`. You may need to adjust the scale and rotation parameters to fit your model properly within the scene on the loadMeshToCameras method.
+```
