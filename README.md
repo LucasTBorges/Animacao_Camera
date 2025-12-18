@@ -1,4 +1,7 @@
 ﻿# Project Report - MATA65 (Computer Graphics)
+
+### [Try the Live Demo](https://lucastborges.github.io/MagicalFlight/)
+
 ## Introduction
 This repository contains the final project for the first unit of the MATA65 - Computer Graphics course at Federal University of Bahia (UFBA) during the 2024.2 semmester, taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
 
