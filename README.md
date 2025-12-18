@@ -1,6 +1,6 @@
-﻿# Project Report 1 - MATA65 (Computer Graphics)
+﻿# Project Report - MATA65 (Computer Graphics)
 ## Introduction
-This repository contains the final project for Unit 1 of the MATA65 - Computer Graphics course at UFBA (2024.2 semester), taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
+This repository contains the final project for the first unit of the MATA65 - Computer Graphics course at Federal University of Bahia (UFBA) during the 2024.2 semmester, taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
 
 The goal was to develop an application using the [Three.js](https://threejs.org/) library to visualize a scene from two simultaneous perspectives: a static camera and a camera that follows an agent (a 3D model) traveling along a looped path.
 
