@@ -110,4 +110,3 @@ By modifying the `t` property in `initValues`, you can set the initial position 
 ## Use your own 3d avatar model
 
 To use your own 3D avatar model, replace the gltf path on the initModels method in `src/js/Aplicacao.js`. You may need to adjust the scale and rotation parameters to fit your model properly within the scene on the loadMeshToCameras method.
-```
