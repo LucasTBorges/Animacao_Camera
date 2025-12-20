@@ -1,6 +1,9 @@
-﻿# Project Report 1 - MATA65 (Computer Graphics)
+﻿# Project Report - MATA65 (Computer Graphics)
+
+### [Try the Live Demo](https://lucastborges.github.io/MagicalFlight/)
+
 ## Introduction
-This repository contains the final project for Unit 1 of the MATA65 - Computer Graphics course at UFBA (2024.2 semester), taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
+This repository contains the final project for the first unit of the MATA65 - Computer Graphics course at Federal University of Bahia (UFBA) during the 2024.2 semmester, taught by Professor [Antônio Apolinário](https://computacao.ufba.br/pt-br/antonio-lopes-apolinario-junior), who provided the project specifications.
 
 The goal was to develop an application using the [Three.js](https://threejs.org/) library to visualize a scene from two simultaneous perspectives: a static camera and a camera that follows an agent (a 3D model) traveling along a looped path.
 
@@ -110,4 +113,3 @@ By modifying the `t` property in `initValues`, you can set the initial position 
 ## Use your own 3d avatar model
 
 To use your own 3D avatar model, replace the gltf path on the initModels method in `src/js/Aplicacao.js`. You may need to adjust the scale and rotation parameters to fit your model properly within the scene on the loadMeshToCameras method.
-```
